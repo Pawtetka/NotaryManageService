@@ -1,0 +1,53 @@
+﻿@model IEnumerable<NotaryDatabaseWebView.Models.Office>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Address)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OfficeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OfficeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OfficeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

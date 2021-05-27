@@ -1,0 +1,20 @@
+﻿<Window x:Class="NotaryDatabaseViewWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NotaryDatabaseViewWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="Cities" HorizontalAlignment="Left" Margin="60,107,0,0" VerticalAlignment="Top" Click="Cities_Button_Click" Height="50" Width="137"/>
+        <Button Content="Locations" HorizontalAlignment="Left" Margin="60,226,0,0" VerticalAlignment="Top" Click="Locations_Button_Click" Height="50" Width="137"/>
+        <Button Content="Offices" HorizontalAlignment="Left" Margin="248,226,0,0" VerticalAlignment="Top" Click="Offices_Button_Click" Height="50" Width="137"/>
+        <Button Content="Workers" HorizontalAlignment="Left" Margin="440,226,0,0" VerticalAlignment="Top" Click="Workers_Button_Click" Height="50" Width="138"/>
+        <Button Content="Assistants" HorizontalAlignment="Left" Margin="441,107,0,0" VerticalAlignment="Top" Click="Notaries_Button_Click" Height="50" Width="136"/>
+        <Button Content="Notaries" HorizontalAlignment="Left" Margin="248,107,0,0" VerticalAlignment="Top" Click="Notaries_Button_Click" Height="50" Width="136"/>
+        <Button Content="Documents" HorizontalAlignment="Left" Margin="618,226,0,0" VerticalAlignment="Top" Click="Notaries_Button_Click" Height="50" Width="136"/>
+        <Button Content="Receptions" HorizontalAlignment="Left" Margin="618,107,0,0" VerticalAlignment="Top" Click="Notaries_Button_Click" Height="50" Width="136"/>
+        <Label Content="NOTARY DATABASE" HorizontalAlignment="Left" Margin="248,26,0,0" VerticalAlignment="Top" Height="59" Width="327" FontSize="35"/>
+    </Grid>
+</Window>

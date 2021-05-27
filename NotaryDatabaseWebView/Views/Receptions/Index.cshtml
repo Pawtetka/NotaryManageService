@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NotaryDatabaseWebView.Models.Reception>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceptionDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notary)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceptionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document.DocumentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notary.CertificateNumber)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReceptionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReceptionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReceptionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

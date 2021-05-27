@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotaryDatabaseDLL", "NotaryDatabaseDLL\NotaryDatabaseDLL.csproj", "{37AF13BA-6C3D-41FD-8F73-419679CC9801}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotaryDatabaseViewWPF", "NotaryDatabaseViewWPF\NotaryDatabaseViewWPF.csproj", "{653D8E28-DCCF-459E-AF1D-4119D08B1588}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801} = {37AF13BA-6C3D-41FD-8F73-419679CC9801}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaryDatabaseWebView", "NotaryDatabaseWebView\NotaryDatabaseWebView.csproj", "{4D9E83E6-F83F-402A-8578-28FB80011F88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653D8E28-DCCF-459E-AF1D-4119D08B1588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653D8E28-DCCF-459E-AF1D-4119D08B1588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653D8E28-DCCF-459E-AF1D-4119D08B1588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653D8E28-DCCF-459E-AF1D-4119D08B1588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D9E83E6-F83F-402A-8578-28FB80011F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D9E83E6-F83F-402A-8578-28FB80011F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D9E83E6-F83F-402A-8578-28FB80011F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D9E83E6-F83F-402A-8578-28FB80011F88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5E38154-F16B-4381-8116-C6C501316629}
+	EndGlobalSection
+EndGlobal

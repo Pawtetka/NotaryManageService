@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NotaryDatabaseDLL.Classes.CitiesService" Collapsed="true">
+    <Position X="2.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAIAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\CitiesService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Classes.DbController" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAkQAAAAoAgIAAAABADAQAEAAAAEDAAAAAAA=</HashCode>
+      <FileName>Classes\DbController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="officeService" />
+      <Field Name="context" />
+      <Field Name="citiesService" />
+      <Field Name="receptionService" />
+      <Field Name="workerService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Classes.OfficeService" Collapsed="true">
+    <Position X="7.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Classes\OfficeService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Classes.ReceptionService" Collapsed="true">
+    <Position X="2.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAABAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\ReceptionService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Classes.WorkerService" Collapsed="true">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAEAAAAABAAAAAAA=</HashCode>
+      <FileName>Classes\WorkerService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Assistant" Collapsed="true">
+    <Position X="3" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAQAAAAQAAAAAAAAACAgAAAEA=</HashCode>
+      <FileName>Models\Assistant.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Notary" />
+      <Property Name="Worker" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.City" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABIAAAAAAAAAIAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\City.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Client" Collapsed="true">
+    <Position X="3" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAgEAAYAAAAAAAAAAAAAAAAAAAAIg=</HashCode>
+      <FileName>Models\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Document" Collapsed="true">
+    <Position X="1" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\Document.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Location" Collapsed="true">
+    <Position X="5.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAABAAAAAAAIAAAAAAAAAAAAAAACAAAAAAAAAQA=</HashCode>
+      <FileName>Models\Location.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="City" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Notary" Collapsed="true">
+    <Position X="3" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABAAAAAAAAAAAAAAIAAAAAAAAAIAAAACAgAAAAA=</HashCode>
+      <FileName>Models\Notary.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Worker" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.NotaryOfficeContext" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAQAAAAAAQAQAAAAQCIAIAAAEAAAAIACAAAgAAAAAQA=</HashCode>
+      <FileName>Models\NotaryOfficeContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Office" Collapsed="true">
+    <Position X="5.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAEAAAAAAAAIAAAAAAAAAAgAAAAAgAAQgAAA=</HashCode>
+      <FileName>Models\Office.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Location" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Reception" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAQAAAAAAgAAAQAAAAQAAAAACAAACAIAAAAQ=</HashCode>
+      <FileName>Models\Reception.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Client" />
+      <Property Name="Notary" />
+      <Property Name="Document" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Service" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAIAAAAAIAAAAAAAAAABEA=</HashCode>
+      <FileName>Models\Service.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.Worker" Collapsed="true">
+    <Position X="5.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAGAAAAAAAAAAQEAAYAAAACAAAIAAAAAAAgQAAIg=</HashCode>
+      <FileName>Models\Worker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Office" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NotaryDatabaseDLL.Models.WorkerService" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAADAAAAAAAAAAAAAAAAAIAAAAQAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\WorkerService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Service" />
+      <Property Name="Worker" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
