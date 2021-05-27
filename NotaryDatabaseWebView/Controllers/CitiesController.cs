@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class CitiesController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<City> _service;
 
-        public CitiesController(NotaryOfficeContext context)
+        public CitiesController(ICrudInterface<City> service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Cities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cities.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Cities/Details/5
@@ -31,9 +32,7 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.CityId == id);
+            var city = await _service.GetByIdAsync((int)id);
             if (city == null)
             {
                 return NotFound();
@@ -55,13 +54,15 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CityId,CityName,CityType")] City city)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(city);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(city);
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            catch
+            {
+                return View(city);
+            }
         }
 
         // GET: Cities/Edit/5
@@ -72,7 +73,7 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
+            var city = await _service.GetByIdAsync((int)id);
             if (city == null)
             {
                 return NotFound();
@@ -92,27 +93,15 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(city);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CityExists(city.CityId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(city);
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            catch
+            {
+                return View(city);
+            }
         }
 
         // GET: Cities/Delete/5
@@ -123,8 +112,7 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.CityId == id);
+            var city = await _service.GetByIdAsync((int)id);
             if (city == null)
             {
                 return NotFound();
@@ -138,15 +126,8 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
-            _context.Cities.Remove(city);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CityExists(int id)
-        {
-            return _context.Cities.Any(e => e.CityId == id);
         }
     }
 }

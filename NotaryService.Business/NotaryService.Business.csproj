@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstraction\" />
-    <Folder Include="Implementation\Services\" />
-    <Folder Include="Implementation\Validation\" />
     <Folder Include="Implementation\Exceptioms\" />
   </ItemGroup>
 

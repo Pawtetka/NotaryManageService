@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NotaryService.Business;
 
 namespace NotaryDatabaseWebView
 {
@@ -28,6 +29,7 @@ namespace NotaryDatabaseWebView
             var connection = Configuration.GetConnectionString("DefaultConnection");
             /*services.AddDbContext<NotaryOfficeContext>(options =>
                 options.UseSqlServer(connection));*/
+            services.AddBllServices();
             services.AddDalServices(connection);
 
             services.AddControllersWithViews();
