@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NotaryService.Models
 {
-    public partial class Reception
+    public partial class ReceptionDto
     {
         public int ReceptionId { get; set; }
         public DateTime ReceptionDate { get; set; }
@@ -14,8 +14,8 @@ namespace NotaryService.Models
         public int ClientId { get; set; }
         public int? DocumentId { get; set; }
 
-        public virtual Client Client { get; set; }
-        public virtual Document Document { get; set; }
-        public virtual Notary Notary { get; set; }
+        public virtual ClientDto Client { get; set; }
+        public virtual DocumentDto Document { get; set; }
+        public virtual NotaryDto Notary { get; set; }
     }
 }

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace NotaryService.Models
 {
-    public partial class WorkerService
+    public partial class WorkerServiceDto
     {
         public int WorkerServiceId { get; set; }
         public int WorkerId { get; set; }
         public int ServiceId { get; set; }
 
-        public virtual Service Service { get; set; }
-        public virtual Worker Worker { get; set; }
+        public virtual ServiceDto Service { get; set; }
+        public virtual WorkerDto Worker { get; set; }
     }
 }

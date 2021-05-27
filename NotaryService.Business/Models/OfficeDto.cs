@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace NotaryService.Models
 {
-    public partial class Office
+    public partial class OfficeDto
     {
-        public Office()
+        public OfficeDto()
         {
-            Workers = new HashSet<Worker>();
+            Workers = new HashSet<WorkerDto>();
         }
 
         public int OfficeId { get; set; }
@@ -18,7 +18,7 @@ namespace NotaryService.Models
         public string OfficeSize { get; set; }
         public int LocationId { get; set; }
 
-        public virtual Location Location { get; set; }
-        public virtual ICollection<Worker> Workers { get; set; }
+        public virtual LocationDto Location { get; set; }
+        public virtual ICollection<WorkerDto> Workers { get; set; }
     }
 }

@@ -5,16 +5,16 @@ using System.Collections.Generic;
 
 namespace NotaryService.Models
 {
-    public partial class Document
+    public partial class DocumentDto
     {
-        public Document()
+        public DocumentDto()
         {
-            Receptions = new HashSet<Reception>();
+            Receptions = new HashSet<ReceptionDto>();
         }
 
         public int DocumentId { get; set; }
         public string DocumentName { get; set; }
 
-        public virtual ICollection<Reception> Receptions { get; set; }
+        public virtual ICollection<ReceptionDto> Receptions { get; set; }
     }
 }

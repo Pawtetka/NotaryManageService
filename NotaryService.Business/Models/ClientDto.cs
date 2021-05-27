@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace NotaryService.Models
 {
-    public partial class Client
+    public partial class ClientDto
     {
-        public Client()
+        public ClientDto()
         {
-            Receptions = new HashSet<Reception>();
+            Receptions = new HashSet<ReceptionDto>();
         }
 
         public int ClientId { get; set; }
@@ -19,6 +19,6 @@ namespace NotaryService.Models
         public string PassportNumber { get; set; }
         public string PhoneNumber { get; set; }
 
-        public virtual ICollection<Reception> Receptions { get; set; }
+        public virtual ICollection<ReceptionDto> Receptions { get; set; }
     }
 }
