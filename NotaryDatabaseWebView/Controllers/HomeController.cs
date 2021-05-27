@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NotaryDatabaseWebView.Models;
+using NotaryDatabaseDLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using NotaryDatabaseWebView.Models;
 
 namespace NotaryDatabaseWebView.Controllers
 {

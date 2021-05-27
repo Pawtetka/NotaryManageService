@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace NotaryDatabaseWebView.Models
+namespace NotaryService.Models
 {
     public partial class Location
     {

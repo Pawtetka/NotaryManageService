@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace NotaryDatabaseWebView.Models
+namespace NotaryService.Models
 {
     public partial class NotaryOfficeContext : DbContext
     {

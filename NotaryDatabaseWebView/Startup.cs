@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NotaryDatabaseWebView.Models;
+using NotaryService.Models;
 using NotaryService.DLL.Implementation;
 using System;
 using System.Collections.Generic;
