@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NotaryDatabaseWebView.Models;
+using NotaryService.DLL.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,9 @@ namespace NotaryDatabaseWebView
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<NotaryOfficeContext>(options =>
-                options.UseSqlServer(connection));
+            /*services.AddDbContext<NotaryOfficeContext>(options =>
+                options.UseSqlServer(connection));*/
+            services.AddDalServices(connection);
 
             services.AddControllersWithViews();
         }

@@ -6,8 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotaryService.DLL", "NotaryDatabaseDLL\NotaryService.DLL.csproj", "{37AF13BA-6C3D-41FD-8F73-419679CC9801}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotaryService.WebView", "NotaryDatabaseWebView\NotaryService.WebView.csproj", "{4D9E83E6-F83F-402A-8578-28FB80011F88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801} = {37AF13BA-6C3D-41FD-8F73-419679CC9801}
+		{9B167FD9-EFC7-4A3A-96DB-150E64B82D50} = {9B167FD9-EFC7-4A3A-96DB-150E64B82D50}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaryService.Business", "NotaryService.Business\NotaryService.Business.csproj", "{9B167FD9-EFC7-4A3A-96DB-150E64B82D50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37AF13BA-6C3D-41FD-8F73-419679CC9801} = {37AF13BA-6C3D-41FD-8F73-419679CC9801}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
