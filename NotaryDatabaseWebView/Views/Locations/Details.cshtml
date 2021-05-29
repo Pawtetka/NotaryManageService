@@ -19,8 +19,9 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.City)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City.CityName)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.CityName) |
+            <a asp-action="Details" asp-controller="Cities" asp-route-id="@Model.CityId">Go to @Html.DisplayNameFor(model => model.City)</a>
         </dd>
     </dl>
 </div>

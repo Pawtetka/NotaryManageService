@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace NotaryDatabaseDLL.Models
 {
-    public partial class NotaryOfficeContext : DbContext
+    public partial class NotaryOfficeContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public NotaryOfficeContext()
         {
