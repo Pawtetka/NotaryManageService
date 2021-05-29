@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NotaryService.Business;
+using Microsoft.AspNetCore.Identity;
 
 namespace NotaryDatabaseWebView
 {
@@ -33,6 +34,10 @@ namespace NotaryDatabaseWebView
             services.AddDalServices(connection);
 
             services.AddControllersWithViews();
+
+            /*services
+                .AddAuthentication(IdentityConstants.ApplicationScheme)
+                .AddCookie(IdentityConstants.ApplicationScheme);*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +55,7 @@ namespace NotaryDatabaseWebView
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

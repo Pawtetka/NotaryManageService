@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace NotaryDatabaseDLL.Models
 {
-    public partial class NotaryOfficeContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public partial class NotaryOfficeContext : IdentityDbContext<User>
     {
         public NotaryOfficeContext()
         {
@@ -17,6 +17,8 @@ namespace NotaryDatabaseDLL.Models
         public NotaryOfficeContext(DbContextOptions<NotaryOfficeContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Assistant> Assistants { get; set; }
@@ -33,14 +35,15 @@ namespace NotaryDatabaseDLL.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            /*if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Data Source=127.0.0.1,8080;Initial Catalog=NotaryOffice;Persist Security Info=True;User ID=sa;Password=Qwerty123");
-            }
+            }*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Assistant>(entity =>
@@ -310,6 +313,7 @@ namespace NotaryDatabaseDLL.Models
             });
 
             OnModelCreatingPartial(modelBuilder);
+            
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

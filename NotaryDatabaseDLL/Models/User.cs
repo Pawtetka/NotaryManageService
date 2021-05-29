@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace NotaryDatabaseDLL.Models
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
         [DataMember]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
         [DataMember]
-        public string Surname { get; set; }
-        [DataMember]
-        public string Role { get; set; }
+        public string LastName { get; set; }
     }
 }

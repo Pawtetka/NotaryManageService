@@ -2,15 +2,30 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <a class="navbar-brand" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Offices" asp-action="Index">Offices</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Workers" asp-action="Index">Workers</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Receptions" asp-action="Index">Receptions</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Notaries" asp-action="Index">Notaries</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
-    <a class="navbar-brand" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
-</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <a class="navbar-brand" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Offices" asp-action="Index">Offices</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Workers" asp-action="Index">Workers</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Receptions" asp-action="Index">Receptions</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Notaries" asp-action="Index">Notaries</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+        <a class="navbar-brand" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
+    </div>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Log out" />
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login">Login</a>
+    <a asp-controller="Account" asp-action="Register">Register</a>
+}
