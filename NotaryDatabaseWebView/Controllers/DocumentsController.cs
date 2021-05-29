@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class DocumentsController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<Document> _service;
 
-        public DocumentsController(NotaryOfficeContext context)
+        public DocumentsController(ICrudInterface<Document> service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Documents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Documents.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Documents/Details/5
@@ -31,15 +32,19 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var document = await _context.Documents
-                .FirstOrDefaultAsync(m => m.DocumentId == id);
-            if (document == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(document);
+            return View(model);
+        }
+
+        //Get: Documents/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Documents/Create
@@ -55,13 +60,15 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DocumentId,DocumentName")] Document document)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(document);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(document);
                 return RedirectToAction(nameof(Index));
             }
-            return View(document);
+            catch
+            {
+                return View(document);
+            }
         }
 
         // GET: Documents/Edit/5
@@ -72,12 +79,12 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var document = await _context.Documents.FindAsync(id);
-            if (document == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(document);
+            return View(model);
         }
 
         // POST: Documents/Edit/5
@@ -92,27 +99,15 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(document);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DocumentExists(document.DocumentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(document);
                 return RedirectToAction(nameof(Index));
             }
-            return View(document);
+            catch
+            {
+                return View(document);
+            }
         }
 
         // GET: Documents/Delete/5
@@ -123,14 +118,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var document = await _context.Documents
-                .FirstOrDefaultAsync(m => m.DocumentId == id);
-            if (document == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(document);
+            return View(model);
         }
 
         // POST: Documents/Delete/5
@@ -138,15 +132,9 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var document = await _context.Documents.FindAsync(id);
-            _context.Documents.Remove(document);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DocumentExists(int id)
-        {
-            return _context.Documents.Any(e => e.DocumentId == id);
-        }
     }
 }

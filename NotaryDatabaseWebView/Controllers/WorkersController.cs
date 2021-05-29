@@ -6,23 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class WorkersController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<Worker> _service;
+        private readonly ICrudInterface<Office> _officesService;
 
-        public WorkersController(NotaryOfficeContext context)
+        public WorkersController(ICrudInterface<Worker> service, ICrudInterface<Office> officesService)
         {
-            _context = context;
+            _service = service;
+            _officesService = officesService;
         }
 
         // GET: Workers
         public async Task<IActionResult> Index()
         {
-            var notaryOfficeContext = _context.Workers.Include(w => w.Office);
-            return View(await notaryOfficeContext.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Workers/Details/5
@@ -32,22 +34,25 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var worker = await _context.Workers
-                .Include(w => w.Office)
-                .FirstOrDefaultAsync(m => m.WorkerId == id);
-            if (worker == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(worker);
+            return View(model);
+        }
+
+        //Get: Workers/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Workers/Create
         public IActionResult Create()
         {
-            ViewData["OfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName");
+            ViewData["OfficeId"] = new SelectList(_officesService.GetAllAsync().Result, "OfficeId", "OfficeName");
             return View();
         }
 
@@ -58,14 +63,16 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WorkerId,FirstName,LastName,Age,PassportNumber,Salary,PhoneNumber,HireDate,OfficeId")] Worker worker)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(worker);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(worker);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", worker.OfficeId);
-            return View(worker);
+            catch
+            {
+                ViewData["OfficeId"] = new SelectList(_officesService.GetAllAsync().Result, "OfficeId", "OfficeName", worker.OfficeId);
+                return View(worker);
+            }
         }
 
         // GET: Workers/Edit/5
@@ -76,13 +83,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var worker = await _context.Workers.FindAsync(id);
-            if (worker == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            ViewData["OfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", worker.OfficeId);
-            return View(worker);
+            ViewData["OfficeId"] = new SelectList(_officesService.GetAllAsync().Result, "OfficeId", "OfficeName", model.OfficeId);
+            return View(model);
         }
 
         // POST: Workers/Edit/5
@@ -97,28 +104,15 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(worker);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!WorkerExists(worker.WorkerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(worker);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", worker.OfficeId);
-            return View(worker);
+            catch
+            {
+                return View(worker);
+            }
         }
 
         // GET: Workers/Delete/5
@@ -129,15 +123,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var worker = await _context.Workers
-                .Include(w => w.Office)
-                .FirstOrDefaultAsync(m => m.WorkerId == id);
-            if (worker == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(worker);
+            return View(model);
         }
 
         // POST: Workers/Delete/5
@@ -145,15 +137,9 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var worker = await _context.Workers.FindAsync(id);
-            _context.Workers.Remove(worker);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WorkerExists(int id)
-        {
-            return _context.Workers.Any(e => e.WorkerId == id);
-        }
     }
 }

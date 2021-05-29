@@ -6,23 +6,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class ReceptionsController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<Reception> _service;
+        private readonly ICrudInterface<Client> _clientsService;
+        private readonly ICrudInterface<Document> _documentsService;
+        private readonly ICrudInterface<Notary> _notariesService;
 
-        public ReceptionsController(NotaryOfficeContext context)
+        public ReceptionsController(ICrudInterface<Reception> service, ICrudInterface<Client> clientsService, ICrudInterface<Document> documentsService,
+            ICrudInterface<Notary> notariesService)
         {
-            _context = context;
+            _service = service;
+            _clientsService = clientsService;
+            _documentsService = documentsService;
+            _notariesService = notariesService;
         }
 
         // GET: Receptions
         public async Task<IActionResult> Index()
         {
-            var notaryOfficeContext = _context.Receptions.Include(r => r.Client).Include(r => r.Document).Include(r => r.Notary);
-            return View(await notaryOfficeContext.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Receptions/Details/5
@@ -32,26 +39,27 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var reception = await _context.Receptions
-                .Include(r => r.Client)
-                .Include(r => r.Document)
-                .Include(r => r.Notary)
-                .FirstOrDefaultAsync(m => m.ReceptionId == id);
-            if (reception == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(reception);
+            return View(model);
+        }
+
+        //Get: Receptions/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Receptions/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "FirstName");
-            ViewData["DocumentId"] = new SelectList(_context.Documents, "DocumentId", "DocumentName");
-            ViewData["NotaryId"] = new SelectList(_context.Notaries, "NotaryId", "CertificateNumber");
+            ViewData["ClientId"] = new SelectList(_clientsService.GetAllAsync().Result, "ClientId", "FirstName");
+            ViewData["DocumentId"] = new SelectList(_documentsService.GetAllAsync().Result, "DocumentId", "DocumentName");
+            ViewData["NotaryId"] = new SelectList(_notariesService.GetAllAsync().Result, "NotaryId", "CertificateNumber");
             return View();
         }
 
@@ -62,16 +70,18 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReceptionId,ReceptionDate,Price,NotaryId,ClientId,DocumentId")] Reception reception)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(reception);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(reception);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "FirstName", reception.ClientId);
-            ViewData["DocumentId"] = new SelectList(_context.Documents, "DocumentId", "DocumentName", reception.DocumentId);
-            ViewData["NotaryId"] = new SelectList(_context.Notaries, "NotaryId", "CertificateNumber", reception.NotaryId);
-            return View(reception);
+            catch
+            {
+                ViewData["ClientId"] = new SelectList(_clientsService.GetAllAsync().Result, "ClientId", "FirstName", reception.ClientId);
+                ViewData["DocumentId"] = new SelectList(_documentsService.GetAllAsync().Result, "DocumentId", "DocumentName", reception.DocumentId);
+                ViewData["NotaryId"] = new SelectList(_notariesService.GetAllAsync().Result, "NotaryId", "CertificateNumber", reception.NotaryId);
+                return View(reception);
+            }
         }
 
         // GET: Receptions/Edit/5
@@ -82,15 +92,15 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var reception = await _context.Receptions.FindAsync(id);
-            if (reception == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "FirstName", reception.ClientId);
-            ViewData["DocumentId"] = new SelectList(_context.Documents, "DocumentId", "DocumentName", reception.DocumentId);
-            ViewData["NotaryId"] = new SelectList(_context.Notaries, "NotaryId", "CertificateNumber", reception.NotaryId);
-            return View(reception);
+            ViewData["ClientId"] = new SelectList(_clientsService.GetAllAsync().Result, "ClientId", "FirstName", model.ClientId);
+            ViewData["DocumentId"] = new SelectList(_documentsService.GetAllAsync().Result, "DocumentId", "DocumentName", model.DocumentId);
+            ViewData["NotaryId"] = new SelectList(_notariesService.GetAllAsync().Result, "NotaryId", "CertificateNumber", model.NotaryId);
+            return View(model);
         }
 
         // POST: Receptions/Edit/5
@@ -105,30 +115,18 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(reception);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReceptionExists(reception.ReceptionId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(reception);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "FirstName", reception.ClientId);
-            ViewData["DocumentId"] = new SelectList(_context.Documents, "DocumentId", "DocumentName", reception.DocumentId);
-            ViewData["NotaryId"] = new SelectList(_context.Notaries, "NotaryId", "CertificateNumber", reception.NotaryId);
-            return View(reception);
+            catch
+            {
+                ViewData["ClientId"] = new SelectList(_clientsService.GetAllAsync().Result, "ClientId", "FirstName", reception.ClientId);
+                ViewData["DocumentId"] = new SelectList(_documentsService.GetAllAsync().Result, "DocumentId", "DocumentName", reception.DocumentId);
+                ViewData["NotaryId"] = new SelectList(_notariesService.GetAllAsync().Result, "NotaryId", "CertificateNumber", reception.NotaryId);
+                return View(reception);
+            }
         }
 
         // GET: Receptions/Delete/5
@@ -139,17 +137,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var reception = await _context.Receptions
-                .Include(r => r.Client)
-                .Include(r => r.Document)
-                .Include(r => r.Notary)
-                .FirstOrDefaultAsync(m => m.ReceptionId == id);
-            if (reception == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(reception);
+            return View(model);
         }
 
         // POST: Receptions/Delete/5
@@ -157,15 +151,9 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reception = await _context.Receptions.FindAsync(id);
-            _context.Receptions.Remove(reception);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReceptionExists(int id)
-        {
-            return _context.Receptions.Any(e => e.ReceptionId == id);
-        }
     }
 }

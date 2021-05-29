@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<Client> _service;
 
-        public ClientsController(NotaryOfficeContext context)
+        public ClientsController(ICrudInterface<Client> service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clients.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Clients/Details/5
@@ -31,15 +32,19 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.ClientId == id);
-            if (client == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(model);
+        }
+
+        //Get: Clients/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Clients/Create
@@ -55,13 +60,15 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClientId,FirstName,LastName,Age,PassportNumber,PhoneNumber")] Client client)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(client);
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            catch
+            {
+                return View(client);
+            }
         }
 
         // GET: Clients/Edit/5
@@ -72,12 +79,12 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(client);
+            return View(model);
         }
 
         // POST: Clients/Edit/5
@@ -92,27 +99,15 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.ClientId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(client);
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            catch
+            {
+                return View(client);
+            }
         }
 
         // GET: Clients/Delete/5
@@ -123,14 +118,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.ClientId == id);
-            if (client == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(model);
         }
 
         // POST: Clients/Delete/5
@@ -138,15 +132,9 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.ClientId == id);
-        }
     }
 }

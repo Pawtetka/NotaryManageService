@@ -10,9 +10,9 @@ namespace NotaryService.Business.Abstraction
     {
         Task CreateEntityAsync(TDto model);
 
-        IAsyncEnumerable<TDto> GetEntitiesByPrincipalId(string principalId);
+        Task<IEnumerable<TDto>> GetEntitiesByPrincipalId(int principalId);
 
-        Task<List<TDto>> GetAllAsync();
+        Task<IEnumerable<TDto>> GetAllAsync();
 
         Task<TDto> GetByIdAsync(int id);
 

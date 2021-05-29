@@ -32,13 +32,19 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-            var city = await _service.GetByIdAsync((int)id);
-            if (city == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(model);
+        }
+
+        //Get: Cities/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Cities/Create
@@ -73,12 +79,12 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var city = await _service.GetByIdAsync((int)id);
-            if (city == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(city);
+            return View(model);
         }
 
         // POST: Cities/Edit/5
@@ -112,13 +118,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var city = await _service.GetByIdAsync((int)id);
-            if (city == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(model);
         }
 
         // POST: Cities/Delete/5

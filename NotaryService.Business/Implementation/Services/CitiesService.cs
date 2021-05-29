@@ -34,7 +34,7 @@ namespace NotaryService.Business.Implementation.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<City>> GetAllAsync()
+        public async Task<IEnumerable<City>> GetAllAsync()
         {
             return await _context.Cities.ToListAsync();
         }
@@ -44,9 +44,9 @@ namespace NotaryService.Business.Implementation.Services
             return await _context.Cities.FirstOrDefaultAsync(m => m.CityId == id);
         }
 
-        public IAsyncEnumerable<City> GetEntitiesByPrincipalId(string principalId)
+        public async Task<IEnumerable<City>> GetEntitiesByPrincipalId(int principalId)
         {
-            throw new NotImplementedException();
+            return await _context.Cities.AsQueryable().Where(a => a.CityId.Equals(principalId)).ToListAsync();
         }
 
         public async Task UpdateEntity(City model)

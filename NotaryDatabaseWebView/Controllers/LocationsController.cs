@@ -6,23 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotaryDatabaseDLL.Models;
+using NotaryService.Business.Abstraction;
 
 namespace NotaryDatabaseWebView.Controllers
 {
     public class LocationsController : Controller
     {
-        private readonly NotaryOfficeContext _context;
+        private readonly ICrudInterface<Location> _service;
+        private readonly ICrudInterface<City> _citiesService;
 
-        public LocationsController(NotaryOfficeContext context)
+        public LocationsController(ICrudInterface<Location> service, ICrudInterface<City> citiesService)
         {
-            _context = context;
+            _service = service;
+            _citiesService = citiesService;
         }
 
         // GET: Locations
         public async Task<IActionResult> Index()
         {
-            var notaryOfficeContext = _context.Locations.Include(l => l.City);
-            return View(await notaryOfficeContext.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Locations/Details/5
@@ -32,22 +34,25 @@ namespace NotaryDatabaseWebView.Controllers
             {
                 return NotFound();
             }
-
-            var location = await _context.Locations
-                .Include(l => l.City)
-                .FirstOrDefaultAsync(m => m.LocationId == id);
-            if (location == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(location);
+            return View(model);
+        }
+
+        //Get: Locations/GetByPrincipalId
+        public async Task<IActionResult> GetByPrincipalId(int? id)
+        {
+            return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Locations/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName");
+            ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName");
             return View();
         }
 
@@ -58,14 +63,16 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LocationId,Address,CityId")] Location location)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(location);
-                await _context.SaveChangesAsync();
+                await _service.CreateEntityAsync(location);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName", location.CityId);
-            return View(location);
+            catch
+            {
+                ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName", location.CityId);
+                return View(location);
+            }
         }
 
         // GET: Locations/Edit/5
@@ -76,13 +83,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations.FindAsync(id);
-            if (location == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName", location.CityId);
-            return View(location);
+            ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName", model.CityId);
+            return View(model);
         }
 
         // POST: Locations/Edit/5
@@ -97,28 +104,16 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(location);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LocationExists(location.LocationId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _service.UpdateEntity(location);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName", location.CityId);
-            return View(location);
+            catch
+            {
+                ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName", location.CityId);
+                return View(location);
+            }
         }
 
         // GET: Locations/Delete/5
@@ -129,15 +124,13 @@ namespace NotaryDatabaseWebView.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations
-                .Include(l => l.City)
-                .FirstOrDefaultAsync(m => m.LocationId == id);
-            if (location == null)
+            var model = await _service.GetByIdAsync((int)id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(location);
+            return View(model);
         }
 
         // POST: Locations/Delete/5
@@ -145,15 +138,9 @@ namespace NotaryDatabaseWebView.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
-            _context.Locations.Remove(location);
-            await _context.SaveChangesAsync();
+            await _service.DeleteEntityByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LocationExists(int id)
-        {
-            return _context.Locations.Any(e => e.LocationId == id);
-        }
     }
 }
