@@ -26,7 +26,19 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-3 my-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li style="list-style-type: none" class="nav-item">@User.Identity.Name</li>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="btn btn-danger" asp-controller="Account" asp-action="Register">Register</a>
+                    }
+                </div>
             </div>
+            
         </nav>
     </header>
     <div class="container">

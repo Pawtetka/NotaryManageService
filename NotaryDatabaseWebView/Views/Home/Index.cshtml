@@ -5,27 +5,48 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <p>@User.Identity.Name</p>
+    <h2>Choose the option you want:</h2>
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <a class="navbar-brand" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Offices" asp-action="Index">Offices</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Workers" asp-action="Index">Workers</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Receptions" asp-action="Index">Receptions</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Notaries" asp-action="Index">Notaries</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
-        <a class="navbar-brand" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
-    </div>
+    <table class="table">
+        <tr>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-info" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-info" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-info" asp-area="" asp-controller="Offices" asp-action="Index">Offices</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-dark" asp-area="" asp-controller="Workers" asp-action="Index">Workers</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-dark" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-success" asp-area="" asp-controller="Receptions" asp-action="Index">Receptions</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-success" asp-area="" asp-controller="Notaries" asp-action="Index">Notaries</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-success" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+            </td>
+            <td style="vertical-align:middle">
+                <a style="font-weight:bold" class="btn btn-outline-success" asp-area="" asp-controller="Documents" asp-action="Index">Documents</a>
+            </td>
+        </tr>
+    </table>
 
     <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Log out" />
+        <input class="btn btn-outline-secondary" type="submit" value="Log out" />
     </form>
 }
 else
 {
-    <a asp-controller="Account" asp-action="Login">Login</a>
-    <a asp-controller="Account" asp-action="Register">Register</a>
+    <div>
+        <h1 class="display-4">Welcome to NotaryManager</h1>
+        <p>Please sign in to start our work</p>
+    </div>
 }
