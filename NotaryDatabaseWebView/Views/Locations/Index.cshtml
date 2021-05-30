@@ -9,11 +9,15 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<div class="form-group">
-    <label>Filter by city</label>
-    <select class="form-control" asp-items="ViewBag.CityId"></select>
-    <input type="submit" value="Index" class="btn btn-outline-primary" />
-</div>
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Команда: </label>
+        @Html.DropDownList("cityId", ViewData["CityId"] as SelectList,
+                    htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>

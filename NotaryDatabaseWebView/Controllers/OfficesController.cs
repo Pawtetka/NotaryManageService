@@ -22,9 +22,14 @@ namespace NotaryDatabaseWebView.Controllers
         }
 
         // GET: Offices
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _service.GetAllAsync());
+            if (id == null)
+            {
+                return View(await _service.GetAllAsync());
+            }
+
+            return View(await _service.GetAllAsync(o => o.LocationId == id));
         }
 
         // GET: Offices/Details/5

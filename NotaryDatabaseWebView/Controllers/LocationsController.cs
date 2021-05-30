@@ -22,20 +22,15 @@ namespace NotaryDatabaseWebView.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? cityId)
         {
             ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName");
-            return View(await _service.GetAllAsync());
-        }
-
-        public async Task<IActionResult> Index(int? id)
-        {
-            if(id == null)
+            if (cityId == null)
             {
                 return View(await _service.GetAllAsync());
             }
 
-            return View(await _service.GetAllAsync(l => l.CityId == id));
+            return View(await _service.GetAllAsync(l => l.CityId == cityId));
         }
 
         // GET: Locations/Details/5

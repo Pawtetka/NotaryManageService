@@ -10,21 +10,21 @@
     <h4>Notary</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CertificateNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CertificateNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Worker)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Worker.FirstName)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.NotaryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div style="margin-top:20px">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.NotaryId">Edit</a> |
+    <a class="btn-secondary" asp-action="Index">Back to List</a>
 </div>

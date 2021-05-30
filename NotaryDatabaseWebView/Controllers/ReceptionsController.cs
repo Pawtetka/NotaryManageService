@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,10 +28,50 @@ namespace NotaryDatabaseWebView.Controllers
         }
 
         // GET: Receptions
-        public async Task<IActionResult> Index()
+        [Route("Receptions")]
+        [Route("Receptions/Index/{filter}")]
+        public async Task<IActionResult> Index(Expression<Func<Reception, bool>> filter = null)
         {
-            return View(await _service.GetAllAsync());
+            if (filter == null)
+            {
+                return View(await _service.GetAllAsync());
+            }
+
+            return View(await _service.GetAllAsync(filter));
         }
+
+        /*[Route("Receptions/Index/client={id}")]
+        public Task<IActionResult> GetByClients(int? id)
+        {
+            if (id == null)
+            {
+                return Index();
+            }
+
+            return Index(r => r.ClientId == id);
+        }
+
+        [Route("Receptions/Index/notary=({id})")]
+        public async Task<IActionResult> GetByNotaries(int? id)
+        {
+            if (id == null)
+            {
+                return View(await _service.GetAllAsync());
+            }
+
+            return View(await _service.GetAllAsync(r => r.NotaryId == id));
+        }
+
+        [Route("Receptions/Index/document=({id})")]
+        public async Task<IActionResult> GetByDocuments(int? id)
+        {
+            if (id == null)
+            {
+                return View(await _service.GetAllAsync());
+            }
+
+            return View(await _service.GetAllAsync(r => r.DocumentId == id));
+        }*/
 
         // GET: Receptions/Details/5
         public async Task<IActionResult> Details(int? id)
