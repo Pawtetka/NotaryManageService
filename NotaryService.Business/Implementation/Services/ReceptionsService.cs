@@ -5,6 +5,7 @@ using NotaryService.Business.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,9 +35,12 @@ namespace NotaryService.Business.Implementation.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Reception>> GetAllAsync()
+        public async Task<IEnumerable<Reception>> GetAllAsync(Expression<Func<Reception, bool>> filter = null)
         {
-            return await _context.Receptions.Include(r => r.Client).Include(r => r.Document).Include(r => r.Notary).ToListAsync();
+            var entities = _context.Receptions.AsQueryable();
+            if (filter != null) entities = entities.Where(filter);
+
+            return await entities.Include(r => r.Client).Include(r => r.Document).Include(r => r.Notary).ToListAsync();
         }
 
         public async Task<Reception> GetByIdAsync(int id)

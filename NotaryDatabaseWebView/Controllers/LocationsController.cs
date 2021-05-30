@@ -24,7 +24,18 @@ namespace NotaryDatabaseWebView.Controllers
         // GET: Locations
         public async Task<IActionResult> Index()
         {
+            ViewData["CityId"] = new SelectList(_citiesService.GetAllAsync().Result, "CityId", "CityName");
             return View(await _service.GetAllAsync());
+        }
+
+        public async Task<IActionResult> Index(int? id)
+        {
+            if(id == null)
+            {
+                return View(await _service.GetAllAsync());
+            }
+
+            return View(await _service.GetAllAsync(l => l.CityId == id));
         }
 
         // GET: Locations/Details/5
@@ -46,7 +57,8 @@ namespace NotaryDatabaseWebView.Controllers
         //Get: Locations/GetByPrincipalId
         public async Task<IActionResult> GetByPrincipalId(int? id)
         {
-            return View(await _service.GetEntitiesByPrincipalId((int)id));
+            return View(await _service.GetAllAsync(l => l.CityId == id));
+            //return View(await _service.GetEntitiesByPrincipalId((int)id));
         }
 
         // GET: Locations/Create

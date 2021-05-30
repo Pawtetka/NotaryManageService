@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace NotaryService.Business.Abstraction
 
         Task<IEnumerable<TDto>> GetEntitiesByPrincipalId(int principalId);
 
-        Task<IEnumerable<TDto>> GetAllAsync();
+        Task<IEnumerable<TDto>> GetAllAsync(Expression<Func<TDto, bool>> filter = null);
 
         Task<TDto> GetByIdAsync(int id);
 

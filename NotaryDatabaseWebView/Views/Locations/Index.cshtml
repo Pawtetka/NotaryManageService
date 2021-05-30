@@ -4,11 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Locations</h1>
+<h1 style="text-align:center">Locations</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+<div class="form-group">
+    <label>Filter by city</label>
+    <select class="form-control" asp-items="ViewBag.CityId"></select>
+    <input type="submit" value="Index" class="btn btn-outline-primary" />
+</div>
 <table class="table">
     <thead>
         <tr>

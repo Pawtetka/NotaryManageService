@@ -37,6 +37,12 @@
                         <a class="btn btn-danger" asp-controller="Account" asp-action="Register">Register</a>
                     }
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <input class="btn btn-outline-secondary" type="submit" value="Log out" />
+                    </form>
+                }
             </div>
             
         </nav>
